@@ -183,7 +183,7 @@ void Save(const string &filename, const BufferedTransformation &bt)
    bt.CopyTo(file);
    file.MessageEnd();
 }
-//Hàm lưu private key
+
 void SavePrivateKey(const string &filename, const PrivateKey &key)
 {
   
@@ -193,7 +193,7 @@ void SavePrivateKey(const string &filename, const PrivateKey &key)
    Save(filename, queue);
 }
 
-//Hàm lưu public key
+
 void SavePublicKey(const string &filename, const PublicKey &key)
 {
  
@@ -380,7 +380,7 @@ void loginPhase(User &ui, Server &sj)
    wcout << "||Calculating Ai = h(Pwi||b)..." << integer_to_wstring(Ai) << endl;
    wstring temp3 = integer_to_wstring(Ai) + x;
    temp3 = integer_to_wstring(sha3_512(wstring_to_string(temp3)));
-   // wcout << "temp3:" << temp3 << endl;
+ 
    Integer Cidi = wstring_to_integer(ui.Au) ^ wstring_to_integer(temp3);
 
    wcout << "||Calculating Cidi = Au ^ h(Ai||Idi)..." << integer_to_wstring(Cidi) << endl;
@@ -401,8 +401,7 @@ void loginPhase(User &ui, Server &sj)
    wcout << "||Calculating V1 = h(Ai||Idi) ^ Nu..." << integer_to_wstring(v1) << endl;
    wstring temp5 = integer_to_wstring(Cidi) + ui.Au;
    wcout << "|| (Cidi||Au) = " << temp5 <<endl;
-   // wcout << "Cidi+Au" << temp5 << endl;
-   // wcout<<"e:"<<integer_to_wstring(ui.e)<<endl;
+
    Integer v2 = EuclideanDomainOf<Integer>().Exponentiate(wstring_to_integer(temp5), ui.e);
    wcout <<  "||Calculating V2 =(Cidi||Au) powar e..."  << integer_to_wstring(v2) << endl;
    time_t time_stamp;
@@ -476,7 +475,7 @@ void authenticateServerPhase(Server &sj, User &ui)
    wcout <<"||Calculating Ns* = V4 ^ Nu ^ Cidi..." << integer_to_wstring(Ns) << endl;
    Integer v4 = Ns ^ ui.randNu ^ wstring_to_integer(sj.Cidi);
    wcout <<"||Calculating V4* = Ns* ^ Nu ^ Cidi..." << integer_to_wstring(v4) << endl;
-   // wcout << "v4 of ui:" << integer_to_wstring(ui.tempV4) << endl;
+  
    if (v4 != ui.tempV4)
    {
       wcout << "authenticate server failed" << endl;
@@ -501,7 +500,7 @@ void changePasswordPhase(User &ui, Server &sj)
    getline(wcin, id);
    wcout << "Enter password" << endl;
    getline(wcin, password);
-   // loginPhase(ui,sj);
+
    wcout << "Enter new password" << endl;
    getline(wcin, newPassword);
    Integer Ai;
@@ -516,7 +515,7 @@ void changePasswordPhase(User &ui, Server &sj)
    Integer hashCidiAiId;
    wstring temp3 = integer_to_wstring(Cidi) + integer_to_wstring(Ai) + id;
    hashCidiAiId = sha3_512(wstring_to_string(temp3));
-   // wcout << "hashCidiAiId:" << integer_to_wstring(hashCidiAiId) << endl;
+
    Integer AiNew;
    wstring temp4 = newPassword + integer_to_wstring(ui.randB);
    AiNew = sha3_512(wstring_to_string(temp4));
